@@ -1,0 +1,64 @@
+﻿@model OrderDto
+<form asp-action="Delete">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Delete Order</h1>
+
+        <hr />
+        <div class="row">
+             <input asp-for="Id" class="form-control" hidden/>             
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;"> Customer Name</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="CustomerName" class="form-control" readonly/>
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Order Date</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="OrderDate" class="form-control" type="date" readonly/>
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Total Amount</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="TotalAmount" class="form-control" readonly/>
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>            
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Currency</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Currency" class="form-control" readonly/>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>     
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Priority</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Priority" class="form-control" readonly/>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>    
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Total Amount In Base Currency</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Currency" class="form-control" readonly/>
+                <span asp-validation-for="TotalAmountInBaseCurrency" class="text-danger"></span>
+            </div>     
+            <div class="col-5 offset-2">
+                <a asp-action="Index" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Delete" class="btn btn-success form-control" />
+            </div>
+        </div>               
+    </div>
+</form>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

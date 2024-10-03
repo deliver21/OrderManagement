@@ -1,0 +1,74 @@
+﻿@model OrderDto
+<div class="container row border p-3 pt-1">
+    <h1 class="text-white text-center bg bg-primary pt-1 pb-1 rounded">Update Order</h1>
+    <br/>
+    <div class="row">
+        <div class="col-10">
+            <form asp-action="Update">
+                <input asp-for="Id" class="form-control" hidden/>
+                <input asp-for="Priority" class="form-control" hidden/>
+                <input asp-for="TotalAmountInBaseCurrency" class="form-control" hidden/>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;"> Customer Name</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Order Date</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="OrderDate" class="form-control" type="date" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Total Amount</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>            
+              <div class="col-10 pb-3">
+                <input asp-for="Currency" class="form-control" readonly/>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>  
+            <div class="row col">
+                 <div class="col-3 text-start">
+                <a asp-action="Index" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+            <div class="col-3 text-end">
+                <input type="submit" value="Update" class="btn btn-success form-control" />
+            </div>
+            </div>
+           
+            </form>
+    </div>
+    <div class="col-2">
+        <h3 class="text-white-50 text-center">Extra operation</h3>
+            @if (Model.Status != "Completed" && Model.Status != "Cancelled")
+            {
+                <div class="row">
+                    <div class="text-start">
+                        Set @Model.CustomerName's Status to Cancel
+                    </div>
+                    <div class="text-end">
+                         <a asp-action="Cancel" asp-route-orderId="@Model.Id" class="btn btn-danger">
+                              <i class="bi bi-x-octagon-fill"></i>
+                        </a>
+                    </div>                
+                </div>
+            }       
+    </div>
+    </div>
+</div>
+
+    
+         
+
+
+
+
+@section Scripts {
+            <partial name="_ValidationScriptsPartial" />
+}

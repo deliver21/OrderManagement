@@ -1,0 +1,71 @@
+﻿@model IEnumerable<OrderDto>
+
+<div class="container row">
+	<div class="card shadow border-0 mt-0">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-0">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="text-white">Orders List</h1>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-1">
+		<div class="row pb-0">
+			<div class="col-6 text-start">
+				<a asp-action="ProcessOrders" asp-controller="Order" class="btn btn-outline-primary"><i class="bi bi-border-width"></i> Process Orders</a>
+			</div>
+			<div class="col-6 text-end">
+				<a asp-action="Create" asp-controller="Order" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Make a new Order</a>
+			</div>
+		</div>
+	</div>
+	<table class="table table-hover pb-3 ps-1 pe-1">
+		<thead>
+			<tr class="table-light">
+				<th>Customer Name</th>
+				<th>Order Date</th>
+				<th>Total Amount</th>
+				<th>Currency</th>
+				<th>Status</th> <!-- This will update in real time -->
+				<th>Priority</th>
+				<th>Total Amount In Base Currency</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+				@foreach (var order in Model)
+				{
+					<tr class="table-secondary" data-order-id="@order.Id">
+						<td>@order.CustomerName</td>
+						<td>@order.OrderDate</td>
+						<td>@order.TotalAmount</td>
+						<td>@order.Currency</td>
+						<td class="order-status" data-status="@order.Status">@order.Status</td>
+						<td>@order.Priority</td>
+						<td>@order.TotalAmountInBaseCurrency
+							@if (order.Currency == "USD")
+							{
+									<span> EUR</span>
+							}
+							else
+							{
+									<span> USD</span>
+							}
+						</td>
+						<td>
+						   <a asp-action="Update" asp-route-orderId="@order.Id" class="btn btn-info">
+							   <i class="bi bi-pencil-square"></i>
+						   </a>
+						</td>			
+						<td>
+							<a asp-action="Delete" asp-route-orderId="@order.Id" class="btn btn-danger">
+									  <i class="bi bi-trash3-fill"></i>
+							 </a>
+						</td>
+					</tr>
+				}
+		</tbody>
+	</table>
+</div>
+</div>

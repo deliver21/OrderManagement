@@ -80,6 +80,8 @@ namespace OrderManagement.OrderAPI.Controllers
                 {
                     var order = _mapper.Map<Order>(orderDto);
                     order.Status = SD.StatusPending;
+                    order.OrderDate = DateTime.Now;
+                    order.Priority = (int)order.TotalAmount;//todo Ask for the currency dependecy
                     await _db.Orders.AddAsync(order);
                     await _db.SaveChangesAsync();
                     _responseDto.Result=_mapper.Map<OrderDto>(order);
@@ -170,6 +172,7 @@ namespace OrderManagement.OrderAPI.Controllers
                     if(order.Status!=SD.StatusCompleted)
                     {
                         order.Status = SD.StatusCancelled;
+                        order.Priority = 0;//todo ask for
                         _db.Orders.Update(order);
                         await _db.SaveChangesAsync();
                         _responseDto.Result = _mapper.Map<OrderDto>(order);

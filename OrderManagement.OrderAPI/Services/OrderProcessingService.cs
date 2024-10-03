@@ -33,7 +33,7 @@ namespace OrderManagement.OrderAPI.Services
 
         public async Task ProcessPendingOrdersAsync()
         {
-            var pendingOrders = await _db.Orders.Where(o => o.Status == SD.StatusPending).ToListAsync();
+            var pendingOrders = await _db.Orders.Where(o => o.Status == SD.StatusPending && (DateTime.Now-o.OrderDate).TotalHours==1.0).ToListAsync();
 
             foreach (var order in pendingOrders)
             {
@@ -43,7 +43,8 @@ namespace OrderManagement.OrderAPI.Services
 
             // Save the priority
             await _db.SaveChangesAsync();
-            foreach (var order in pendingOrders.OrderByDescending(o => o.Priority))
+            pendingOrders = pendingOrders.OrderByDescending(o => o.Priority).ToList();
+            foreach (var order in pendingOrders.OrderByDescending(o => o.OrderDate))
             {
                 try
                 {

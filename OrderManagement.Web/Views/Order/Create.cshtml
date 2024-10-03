@@ -1,9 +1,17 @@
 ﻿@model OrderDto
+@{
+    IEnumerable<SelectListItem> CurrencyList = new List<SelectListItem>()
+    {
+       new SelectListItem{Value="USD",Text="USD"},
+       new SelectListItem{Value="EUR",Text="EUR"}
+    };
+    ViewBag.CurrencyList = CurrencyList;
+}
 <form asp-action="Create">
     <br />
     <div class="container row border p-3">
         <h1 class="text-white text-center">Create Order</h1>
-
+        
         <hr />
         <div class="row">
             <div class="col-2">

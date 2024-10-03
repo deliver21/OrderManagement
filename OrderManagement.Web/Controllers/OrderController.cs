@@ -26,11 +26,6 @@ namespace OrderManagement.Web.Controllers
         }
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> currencies= new List<SelectListItem>() { 
-                new SelectListItem{Value="USD",Text="USD"},
-                new SelectListItem{Value="EUR",Text="EUR"}
-            };
-            ViewBag.CurrencyList= currencies;
             return View();
         }
         [HttpPost]

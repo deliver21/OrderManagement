@@ -14,7 +14,6 @@ builder.Services.AddSignalR();
 
 //Populate the OrderAPIBase Urls stored in ProgramCs
 SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"];
-
 // Add services to the container.
 //Configure the Http Client
 builder.Services.AddHttpContextAccessor();

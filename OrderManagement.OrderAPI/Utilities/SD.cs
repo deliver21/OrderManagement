@@ -6,5 +6,6 @@
         public static string StatusProcessing = "Processing";
         public static string StatusCompleted = "Completed";
         public static string StatusCancelled = "Cancelled";
+        
     }
 }

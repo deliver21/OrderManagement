@@ -10,7 +10,7 @@ namespace OrderManagement.Web.Utilities.FluentValidator
             // Ensure that CustomerName is not empty
             RuleFor(order => order.CustomerName)
                 .NotEmpty().WithMessage("Customer name is required.");
-
+            RuleFor(order => order.CustomerName).MinimumLength(3).WithMessage("Customer name is too short");
             // Ensure that TotalAmount is greater than zero
             RuleFor(order => order.TotalAmount)
                 .GreaterThan(0).WithMessage("Total amount must be greater than zero.");

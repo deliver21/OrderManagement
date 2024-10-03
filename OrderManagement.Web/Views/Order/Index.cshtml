@@ -28,7 +28,7 @@
 				<th>Currency</th>
 				<th>Status</th> <!-- This will update in real time -->
 				<th>Priority</th>
-				<th>Total Amount In Base Currency</th>
+				<th>Total Amount In Base Currency (EUR)</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -43,16 +43,7 @@
 						<td>@order.Currency</td>
 						<td class="order-status" data-status="@order.Status">@order.Status</td>
 						<td>@order.Priority</td>
-						<td>@order.TotalAmountInBaseCurrency
-							@if (order.Currency == "USD")
-							{
-									<span> EUR</span>
-							}
-							else
-							{
-									<span> USD</span>
-							}
-						</td>
+						<td>@order.TotalAmountInBaseCurrency €</td>
 						<td>
 						   <a asp-action="Update" asp-route-orderId="@order.Id" class="btn btn-info">
 							   <i class="bi bi-pencil-square"></i>

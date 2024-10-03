@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.SignalR;
 using OrderManagement.Web.Models;
 
 namespace OrderManagement.Web.Utilities.FluentValidator
@@ -21,13 +22,13 @@ namespace OrderManagement.Web.Utilities.FluentValidator
 
             // Ensure that Currency is supported (EUR)
             RuleFor(order => order.Currency)
-                .Must(IsSupportedCurrency).WithMessage("Currency is not supported. Supported currencies: USD, EUR.");
+                .Must(IsSupportedCurrency).WithMessage("Currency is not supported. Supported currencies: USD, EUR,BYN,PLN,RUB,CDF");
         }
 
         // Helper function to check if the currency is supported
         private bool IsSupportedCurrency(string currency)
         {
-            var supportedCurrencies = new[] {"EUR" ,"USD"};
+            var supportedCurrencies = new[] {"EUR" ,"USD","BYN", "PLN", "RUB"," CDF" };
             return Array.Exists(supportedCurrencies, curr => curr == currency);
         }
     }

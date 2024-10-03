@@ -21,14 +21,14 @@ namespace OrderManagement.OrderAPI.Utilities.FluentValidator
 
             // Ensure that Currency is supported (EUR)
             RuleFor(order => order.Currency)
-                .Must(IsSupportedCurrency).WithMessage("Currency is not supported. Supported currencies: USD, EUR.");
-        }
+                .Must(IsSupportedCurrency).WithMessage("Currency is not supported. Supported currencies: USD, EUR,BYN,PLN,RUB,CDF");
+		}
 
         // Helper function to check if the currency is supported
         private bool IsSupportedCurrency(string currency)
         {
-            var supportedCurrencies = new[] {"EUR" ,"USD"};
-            return Array.Exists(supportedCurrencies, curr => curr == currency);
+			var supportedCurrencies = new[] { "EUR", "USD", "BYN", "PLN", "RUB", " CDF" };
+			return Array.Exists(supportedCurrencies, curr => curr == currency);
         }
     }
 }

@@ -2,8 +2,12 @@
 @{
     IEnumerable<SelectListItem> CurrencyList = new List<SelectListItem>()
     {
-       new SelectListItem{Value="USD",Text="USD"},
-       new SelectListItem{Value="EUR",Text="EUR"}
+       new SelectListItem { Value = "USD", Text = "USD" },
+       new SelectListItem { Value = "EUR", Text = "EUR" },
+       new SelectListItem { Value = "BYN", Text = "BYN" },
+       new SelectListItem { Value = "PLN", Text = "PLN" },
+       new SelectListItem { Value = "RUB", Text = "RUB" },
+       new SelectListItem { Value = "CDF", Text = "CDF" }
     };
     ViewBag.CurrencyList = CurrencyList;
 }

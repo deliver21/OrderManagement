@@ -29,18 +29,8 @@ namespace OrderManagement.OrderAPI.Services
                 var exchangeData = JsonConvert.DeserializeObject<CurrencyApiResponse>(result);
 
                 // Assuming the API returns rates in a dictionary format like { "USD": 1.0, "EUR": 0.85, ... }
-                decimal? rate;
-                if(currencyCode=="USD")
-                {
-                    var found = exchangeData.rates.First(u => u.Key == "USD");
-                    rate= 1/found.Value;
-                }
-                else
-                {
-                    var found = exchangeData.rates.First(u => u.Key == "USD");
-                    rate = found.Value;
-                }
-                
+                decimal? rate;                
+                rate=exchangeData.rates.First(u=>u.Key== currencyCode).Value;
                 if (rate != null)
                 {
                     return rate;

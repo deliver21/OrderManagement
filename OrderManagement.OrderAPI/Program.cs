@@ -57,12 +57,12 @@ if (app.Environment.IsDevelopment())
 // Hangfire Dashboard for monitoring.
 app.UseHangfireDashboard();
 // Schedule background jobs
-RecurringJob.AddOrUpdate<IOrderProcessingService>(
+RecurringJob.AddOrUpdate<OrderProcessingService>(
     "process-pending-orders",
     service => service.ProcessPendingOrdersAsync(),
     Cron.MinuteInterval(5)
 );
-RecurringJob.AddOrUpdate<IOrderProcessingService>(
+RecurringJob.AddOrUpdate<OrderProcessingService>(
         "process-completed-orders",
         service => service.ProcessCompletedOrdersAsync(),
         Cron.MinuteInterval(5)

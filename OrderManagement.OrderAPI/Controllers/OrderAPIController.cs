@@ -153,7 +153,7 @@ namespace OrderManagement.OrderAPI.Controllers
             try
             {
                 await _orderProcessingService.ProcessPendingOrdersAsync();                
-                await _orderProcessingService.ProcessCompletedOrdersAsync();
+                _orderProcessingService.ProcessCompletedOrdersAsync();
                 IEnumerable<Order> list = _db.Orders;
                 _responseDto.Result = _mapper.Map<IEnumerable<OrderDto>>(list);
                 _responseDto.IsSuccess = true;

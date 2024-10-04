@@ -3,6 +3,6 @@
     public interface IOrderProcessingService
     {
         Task ProcessPendingOrdersAsync();
-        Task ProcessCompletedOrdersAsync();
+        void ProcessCompletedOrdersAsync();
     }
 }

@@ -71,9 +71,9 @@ namespace OrderManagement.OrderAPI.Services
                 }
             }
         }
-        public async Task ProcessCompletedOrdersAsync()
+        public  void ProcessCompletedOrdersAsync()
         {
-            var processingOrders = await _db.Orders.Where(o => o.Status == SD.StatusProcessing).ToListAsync();
+            var processingOrders =  _db.Orders.Where(o => o.Status == SD.StatusProcessing).ToList();
 
             foreach (var order in processingOrders)
             {
@@ -81,7 +81,7 @@ namespace OrderManagement.OrderAPI.Services
                 {
                     // Mark order as Completed
                     order.Status = SD.StatusCompleted;
-                    await _db.SaveChangesAsync();
+                    _db.SaveChanges();
 
                     // Publish the completed order message to RabbitMQ
                     PublishOrderToRabbitMQ(order);

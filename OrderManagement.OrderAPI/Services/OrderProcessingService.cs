@@ -33,16 +33,16 @@ namespace OrderManagement.OrderAPI.Services
 
         public async Task ProcessPendingOrdersAsync()
         {
-            var pendingOrders = await _db.Orders.Where(o => o.Status == SD.StatusPending && (DateTime.Now-o.OrderDate).TotalHours==1.0).ToListAsync();
-
+            IEnumerable<Order> pendingOrders = new List<Order>();
+            pendingOrders = await _db.Orders.Where(o => o.Status == SD.StatusPending).ToListAsync();
             foreach (var order in pendingOrders)
             {
                 // Recalculate the priority based on the latest data
-                order.CalculatePriority();
+                await _currencyService.CalculatePriority(order);
             }
-
             // Save the priority
             await _db.SaveChangesAsync();
+            pendingOrders = await _db.Orders.Where(o => o.Status == SD.StatusPending).ToListAsync();
             pendingOrders = pendingOrders.OrderByDescending(o => o.Priority).ToList();
             foreach (var order in pendingOrders.OrderByDescending(o => o.OrderDate))
             {
@@ -54,10 +54,9 @@ namespace OrderManagement.OrderAPI.Services
                     if (exchangeRate != null)
                     {
                         // Convert the total amount to the base currency
-                        order.TotalAmountInBaseCurrency = order.TotalAmount * exchangeRate.Value;
-
+                        order.TotalAmountInBaseCurrency = order.TotalAmount * Convert.ToDecimal(1/exchangeRate);
                         // Change the status to 'Processing'
-                        order.Status = "Processing";
+                        order.Status = SD.StatusProcessing;
                         await _db.SaveChangesAsync();
                     }
                     else
@@ -74,14 +73,14 @@ namespace OrderManagement.OrderAPI.Services
         }
         public async Task ProcessCompletedOrdersAsync()
         {
-            var processingOrders = await _db.Orders.Where(o => o.Status == "Processing").ToListAsync();
+            var processingOrders = await _db.Orders.Where(o => o.Status == SD.StatusProcessing).ToListAsync();
 
             foreach (var order in processingOrders)
             {
                 try
                 {
                     // Mark order as Completed
-                    order.Status = "Completed";
+                    order.Status = SD.StatusCompleted;
                     await _db.SaveChangesAsync();
 
                     // Publish the completed order message to RabbitMQ

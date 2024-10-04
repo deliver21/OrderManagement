@@ -35,7 +35,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true; // Disable automatic ModelState validation
 });
 
-builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
+builder.Services.AddHttpClient<ICurrencyService,CurrencyService>();
 
 builder.Services.AddScoped<IOrderProcessingService,OrderProcessingService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();

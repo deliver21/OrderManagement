@@ -28,7 +28,7 @@ namespace OrderManagement.Web.Utilities.FluentValidator
         // Helper function to check if the currency is supported
         private bool IsSupportedCurrency(string currency)
         {
-            var supportedCurrencies = new[] {"EUR" ,"USD","BYN", "PLN", "RUB"," CDF" };
+            var supportedCurrencies = new[] {"EUR" ,"USD","BYN", "PLN", "RUB","CDF" };
             return Array.Exists(supportedCurrencies, curr => curr == currency);
         }
     }

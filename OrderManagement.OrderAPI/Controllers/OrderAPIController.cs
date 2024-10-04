@@ -22,20 +22,22 @@ namespace OrderManagement.OrderAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<OrderDto> _validator;   
         private readonly IOrderProcessingService _orderProcessingService; 
+        private readonly ICurrencyService _currencyService;
         public OrderAPIController(ApplicationDbContext db , IMapper mapper,IValidator<OrderDto> validator
-            ,IOrderProcessingService orderProcessingService) { 
+            ,IOrderProcessingService orderProcessingService,ICurrencyService currencyService) { 
             _db = db;
             _mapper = mapper;
             _validator = validator;
             _orderProcessingService=orderProcessingService;
             _responseDto= new ResponseDto();
+            _currencyService = currencyService;
         }
         [HttpGet]
         public ResponseDto Get()
         {            
             try
             {
-                IEnumerable<Order> objList = _db.Orders.ToList();
+                IEnumerable<Order> objList = _db.Orders.AsNoTracking().ToList();
                 _responseDto.Result = _mapper.Map<IEnumerable<OrderDto>>(objList);
             }
             catch(Exception ex)
@@ -51,7 +53,7 @@ namespace OrderManagement.OrderAPI.Controllers
         {
             try
             {
-                var orderDto = await _db.Orders.FirstAsync(u=>u.Id==id);
+                var orderDto = await _db.Orders.AsNoTracking().FirstAsync(u=>u.Id==id);
                 _responseDto.Result = _mapper.Map<OrderDto>(orderDto);
             }
             catch (Exception ex)
@@ -74,14 +76,18 @@ namespace OrderManagement.OrderAPI.Controllers
                     _responseDto.Result = errors;
                     _responseDto.IsSuccess = false;
                     _responseDto.Message = "Bad request";
-                }                 
-                
+                }    
                 else
                 {
                     var order = _mapper.Map<Order>(orderDto);
                     order.Status = SD.StatusPending;
                     order.OrderDate = DateTime.Now;
-                    order.Priority = (int)order.TotalAmount;//todo Ask for the currency dependecy
+                    var getCurrency = await _currencyService.GetExchangeRate(order.Currency);
+                    if (getCurrency!=null)
+                    {
+                        order.Priority = (int)(order.TotalAmount * (1 / getCurrency));
+                    }
+                    else { order.Priority = 0; }//todo Ask for the currency dependecy
                     await _db.Orders.AddAsync(order);
                     await _db.SaveChangesAsync();
                     _responseDto.Result=_mapper.Map<OrderDto>(order);
@@ -173,8 +179,8 @@ namespace OrderManagement.OrderAPI.Controllers
                     {
                         order.Status = SD.StatusCancelled;
                         order.Priority = 0;//todo ask for
-                        _db.Orders.Update(order);
-                        await _db.SaveChangesAsync();
+                        _db.Orders.Update(order);                        
+                        await _db.SaveChangesAsync();                        
                         _responseDto.Result = _mapper.Map<OrderDto>(order);
                     }
                     else

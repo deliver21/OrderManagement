@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hangfire.Server;
+using OrderManagement.OrderAPI.Services.IServices;
+using OrderManagement.OrderAPI.Utilities;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderManagement.OrderAPI.Models
 {
@@ -10,15 +14,8 @@ namespace OrderManagement.OrderAPI.Models
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public string Currency { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = SD.StatusPending;
         public int Priority { get; set; } = 0;
-        public decimal TotalAmountInBaseCurrency { get; set; }
-
-        public void CalculatePriority()
-        {
-            // Priority = TotalAmount (points for currency) + Hours since OrderDate
-            //var hoursSinceOrder = (DateTime.Now - OrderDate).TotalHours;
-            Priority += 1;// (int)TotalAmount + (int)hoursSinceOrder;
-        }
+        public decimal TotalAmountInBaseCurrency { get; set; }    
     }
 }
